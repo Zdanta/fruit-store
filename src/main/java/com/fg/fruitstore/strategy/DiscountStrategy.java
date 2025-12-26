@@ -1,5 +1,7 @@
 package com.fg.fruitstore.strategy;
 
+import java.math.BigDecimal;
+
 public interface DiscountStrategy {
 
     /**
@@ -8,5 +10,5 @@ public interface DiscountStrategy {
      * @param originalTotal 原始总价
      * @return 折扣后的价格
      */
-    double applyDiscount(double originalTotal);
+    BigDecimal applyDiscount(BigDecimal originalTotal);
 }

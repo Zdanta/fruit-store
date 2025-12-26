@@ -1,20 +1,22 @@
 package com.fg.fruitstore.domain;
 
-import com.fg.fruitstore.constants.Constants;
+import com.fg.fruitstore.constants.PriceConstants;
+
+import java.math.BigDecimal;
 
 public enum Fruit {
 
-    APPLE(Constants.APPLE_PRICE),
-    STRAWBERRY(Constants.STRAWBERRY_PRICE),
-    MANGO(Constants.MANGO_PRICE);
+    APPLE(PriceConstants.APPLE_PRICE),
+    STRAWBERRY(PriceConstants.STRAWBERRY_PRICE),
+    MANGO(PriceConstants.MANGO_PRICE);
 
-    private final double pricePerKg;
+    private final BigDecimal pricePerKg;
 
-    Fruit(double pricePerKg) {
+    Fruit(BigDecimal pricePerKg) {
         this.pricePerKg = pricePerKg;
     }
 
-    public double getPricePerKg() {
+    public BigDecimal getPricePerKg() {
         return pricePerKg;
     }
 }

@@ -6,49 +6,52 @@ import com.fg.fruitstore.strategy.FullReductionStrategy;
 import com.fg.fruitstore.strategy.NoDiscountStrategy;
 import com.fg.fruitstore.strategy.StrawberryDiscountStrategy;
 
+import java.math.BigDecimal;
+
 public class ShoppingCartTest {
 
     public static void main(String[] args) {
 
-        // 顾客 A：苹果 + 草莓
+        // Customer A
         ShoppingCart cartA = new ShoppingCart();
-        cartA.addFruit(Fruit.APPLE, 2);
-        cartA.addFruit(Fruit.STRAWBERRY, 1);
-        assertEqual(cartA.checkout(new NoDiscountStrategy()), 29.0, "Customer A");
+        cartA.addFruit(Fruit.APPLE, new BigDecimal("2"));
+        cartA.addFruit(Fruit.STRAWBERRY, new BigDecimal("1"));
+        assertEqual(cartA.checkout(new NoDiscountStrategy()), new BigDecimal("29.00"), "Customer A");
 
-        // 顾客 B：苹果 + 草莓 + 芒果
+        // Customer B
         ShoppingCart cartB = new ShoppingCart();
-        cartB.addFruit(Fruit.APPLE, 2);
-        cartB.addFruit(Fruit.STRAWBERRY, 1);
-        cartB.addFruit(Fruit.MANGO, 1);
-        assertEqual(cartB.checkout(new NoDiscountStrategy()), 49.0, "Customer B");
+        cartB.addFruit(Fruit.APPLE, new BigDecimal("2"));
+        cartB.addFruit(Fruit.STRAWBERRY, new BigDecimal("1"));
+        cartB.addFruit(Fruit.MANGO, new BigDecimal("1"));
+        assertEqual(cartB.checkout(new NoDiscountStrategy()), new BigDecimal("49.00"), "Customer B");
 
-        // 顾客 C：草莓 8 折
+        // Customer C
         ShoppingCart cartC = new ShoppingCart();
-        cartC.addFruit(Fruit.APPLE, 2);
-        cartC.addFruit(Fruit.STRAWBERRY, 1);
-        double resultC = cartC.checkout(
-                new StrawberryDiscountStrategy(cartC.getFruitWeight(Fruit.STRAWBERRY)));
-        assertEqual(resultC, 26.4, "Customer C");
+        cartC.addFruit(Fruit.APPLE, new BigDecimal("2"));
+        cartC.addFruit(Fruit.STRAWBERRY, new BigDecimal("1"));
+        BigDecimal resultC = cartC.checkout(
+                new StrawberryDiscountStrategy(cartC.getFruitWeight(Fruit.STRAWBERRY))
+        );
+        assertEqual(resultC, new BigDecimal("26.40"), "Customer C");
 
-        // 顾客 D：满 100 减 10（边界值）
+        // Customer D: full reduction
         ShoppingCart cartD1 = new ShoppingCart();
-        cartD1.addFruit(Fruit.MANGO, 5); // 100
-        assertEqual(cartD1.checkout(new FullReductionStrategy()), 90.0, "Exactly 100");
+        cartD1.addFruit(Fruit.MANGO, new BigDecimal("5")); // 100
+        assertEqual(cartD1.checkout(new FullReductionStrategy()), new BigDecimal("90.00"), "Exactly 100");
 
         ShoppingCart cartD2 = new ShoppingCart();
-        cartD2.addFruit(Fruit.MANGO, 4); // 80
-        assertEqual(cartD2.checkout(new FullReductionStrategy()), 80.0, "Below 100");
+        cartD2.addFruit(Fruit.MANGO, new BigDecimal("4")); // 80
+        assertEqual(cartD2.checkout(new FullReductionStrategy()), new BigDecimal("80.00"), "Below 100");
 
         ShoppingCart cartD3 = new ShoppingCart();
-        cartD3.addFruit(Fruit.MANGO, 6); // 120
-        assertEqual(cartD3.checkout(new FullReductionStrategy()), 110.0, "Above 100");
+        cartD3.addFruit(Fruit.MANGO, new BigDecimal("6")); // 120
+        assertEqual(cartD3.checkout(new FullReductionStrategy()), new BigDecimal("110.00"), "Above 100");
 
-        System.out.println("success");
+        System.out.println("All test cases passed!");
     }
 
-    private static void assertEqual(double actual, double expected, String message) {
-        if (Math.abs(actual - expected) > 0.0001) {
+    private static void assertEqual(BigDecimal actual, BigDecimal expected, String message) {
+        if (actual.compareTo(expected) != 0) {
             throw new AssertionError(message + " failed: expected "
                     + expected + ", actual " + actual);
         }
