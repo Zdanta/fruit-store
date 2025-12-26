@@ -21,7 +21,7 @@ public class ShoppingCart {
      */
     public void addFruit(Fruit fruit, int weightKg) {
         if (weightKg < 0) {
-            throw new IllegalArgumentException("Weight must be >= 0");
+            throw new IllegalArgumentException("克重必须大于等于0");
         }
         items.put(fruit, weightKg);
     }

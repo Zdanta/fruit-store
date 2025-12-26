@@ -44,7 +44,7 @@ public class ShoppingCartTest {
         cartD3.addFruit(Fruit.MANGO, 6); // 120
         assertEqual(cartD3.checkout(new FullReductionStrategy()), 110.0, "Above 100");
 
-        System.out.println("All test cases passed!");
+        System.out.println("success");
     }
 
     private static void assertEqual(double actual, double expected, String message) {
